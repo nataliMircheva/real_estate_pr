@@ -10,43 +10,56 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping (value = "/floors")
 public class FloorController {
-    private  final FloorConverter floorConverter;
+    private final FloorConverter floorConverter;
     private final FloorService floorService;
+
     @Autowired
     public FloorController(FloorConverter floorConverter, FloorService floorService) {
         this.floorConverter = floorConverter;
         this.floorService = floorService;
     }
-    @GetMapping
-    public ResponseEntity<Set<FloorDto>> findAll (){
 
-        return ResponseEntity.ok(floorService.findAll()
-                .stream()
-                .map(floorConverter ::toFloorDto)
-                .collect(Collectors.toSet()));
+    @GetMapping
+    public ResponseEntity<Set<FloorDto>> findAll() {
+
+      //  Set<FloorDto> floorDtos = new HashSet<>();
+      //  Set<Floor> floors = floorService.findAll();
+
+     //   for (Floor floor : floors) {
+//
+       //     FloorDto floorDto = floorConverter.toFloorDto(floor);
+        //    floorDtos.add(floorDto);
+     //return    ResponseEntity.ok(floorDtos)
+
+   //     } dvete sa ekvivalentni
+            return ResponseEntity.ok(floorService.findAll()
+                    .stream()
+                    .map(floorConverter::toFloorDto)
+                    .collect(Collectors.toSet()));
+
 
     }
 
     @PostMapping
-    public ResponseEntity<FloorDto> save ( @RequestBody @Valid FloorDto floorDto){
+    public ResponseEntity<FloorDto> save(@RequestBody @Valid FloorDto floorDto) {
 
-    Floor floor = floorConverter.toFloor(floorDto);
-    Floor savedFloor = floorService.save(floor);
+        Floor floor = floorConverter.toFloor(floorDto);
+        Floor savedFloor = floorService.save(floor);
 
-    return ResponseEntity.ok(floorConverter.toFloorDto(savedFloor));
-
+        return ResponseEntity.ok(floorConverter.toFloorDto(savedFloor));
 
 
     }
 
     @DeleteMapping
-    public ResponseEntity<HttpStatus> delete(@PathVariable Long id){
+    public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
         floorService.delete(id);
         return ResponseEntity.ok().build();
     }
