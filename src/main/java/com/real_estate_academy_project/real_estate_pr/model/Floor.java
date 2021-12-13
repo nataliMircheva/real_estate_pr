@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @Getter
 @Entity
+@Table(name = "floors")
 public class Floor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

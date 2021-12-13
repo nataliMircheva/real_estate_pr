@@ -6,19 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Builder
-public class FloorDto {
-    @Range (min = -3, max = 164,message = "must be between -3 and 164")
+public class NeighborhoodDto {
 
     private Long id;
-    private Integer number;
 
+   // @Range(min =1, max = 255, message = "must be between 1 and 255")
+    private String name;
 }

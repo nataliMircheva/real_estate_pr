@@ -29,38 +29,56 @@ public class FloorController {
     @GetMapping
     public ResponseEntity<Set<FloorDto>> findAll() {
 
-      //  Set<FloorDto> floorDtos = new HashSet<>();
-      //  Set<Floor> floors = floorService.findAll();
-
-     //   for (Floor floor : floors) {
+//        Set<FloorDto> floorDtos = new HashSet<>();
+//        Set<Floor> floors = floorService.findAll();
 //
-       //     FloorDto floorDto = floorConverter.toFloorDto(floor);
-        //    floorDtos.add(floorDto);
-     //return    ResponseEntity.ok(floorDtos)
+//        for (Floor floor : floors) {
+//
+//            FloorDto floorDto = floorConverter.toFloorDto(floor);
+//            floorDtos.add(floorDto);
+//        }
+//            return ResponseEntity.ok(floorDtos);
+//        }
 
-   //     } dvete sa ekvivalentni
-            return ResponseEntity.ok(floorService.findAll()
-                    .stream()
-                    .map(floorConverter::toFloorDto)
-                    .collect(Collectors.toSet()));
-
-
-    }
-
-    @PostMapping
-    public ResponseEntity<FloorDto> save(@RequestBody @Valid FloorDto floorDto) {
-
-        Floor floor = floorConverter.toFloor(floorDto);
-        Floor savedFloor = floorService.save(floor);
-
-        return ResponseEntity.ok(floorConverter.toFloorDto(savedFloor));
-
+        //     } dvete sa ekvivalentni
+        return ResponseEntity.ok(floorService.findAll()
+                .stream()
+                .map(floorConverter::toFloorDto)
+                .collect(Collectors.toSet()));
 
     }
+        @PostMapping
+        public ResponseEntity<FloorDto> save (@RequestBody @Valid FloorDto floorDto){
 
-    @DeleteMapping
-    public ResponseEntity<HttpStatus> delete(@PathVariable Long id) {
-        floorService.delete(id);
-        return ResponseEntity.ok().build();
-    }
+            Floor floor = floorConverter.toFloor(floorDto);
+            Floor savedFloor = floorService.save(floor);
+
+            return ResponseEntity.ok(floorConverter.toFloorDto(savedFloor));
+
+
+        }
+
+        @DeleteMapping
+        public ResponseEntity<HttpStatus> delete (@PathVariable Long id){
+            floorService.delete(id);
+            return ResponseEntity.ok().build();
+        }
+
+        @GetMapping(value = "/id/{id}")
+        public ResponseEntity<FloorDto> findById(@PathVariable Long id){
+        return ResponseEntity.ok(floorConverter.toFloorDto(floorService.findById(id)));
+        }
+
+        @GetMapping(value = "/number/{number}")
+    public ResponseEntity<FloorDto> findByNumber(@PathVariable Integer number){
+        return ResponseEntity.ok(floorConverter.toFloorDto(floorService.findByNumber(number)));
+        }
+
+        @PutMapping(value = "/{id}")
+    public ResponseEntity<FloorDto> update (@RequestBody @Valid FloorDto floorDto, @PathVariable Long id){
+        Floor foundFloor = floorConverter.toFloor(floorDto);
+        Floor updatedFloor = floorService.update(foundFloor, id);
+        return ResponseEntity.ok(floorConverter.toFloorDto(updatedFloor));
+        }
+
 }

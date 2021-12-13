@@ -7,11 +7,13 @@ import com.real_estate_academy_project.real_estate_pr.repository.FloorRepository
 import com.real_estate_academy_project.real_estate_pr.service.FloorService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
-
+@Service
 public class FloorServiceImpl implements FloorService {
      private FloorRepository floorRepository;
 
@@ -58,6 +60,6 @@ public class FloorServiceImpl implements FloorService {
 
     @Override
     public Set<Floor> findAll() {
-        return new TreeSet<>(Comparator.comparing(Floor::getId));
+        return new HashSet<>(floorRepository.findAll());
     }
 }
